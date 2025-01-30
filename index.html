@@ -1,78 +1,216 @@
-<html>
-<head></head>
-<style>
-    #root {
-        background-color: aquamarine;
-        color: rgb(0, 0, 0);
-        font-size: 10px;
-        text-align: center;
-        height: 100vh;
-    }
-</style>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendaftaran Anggota Kentud</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #71C9CE, #E3FDFD);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #root {
+            background: linear-gradient(135deg, #A6E3E9, #CBF1F5);
+            padding: 20px;
+            border-radius: 25px;
+            box-shadow: 5px 5px 2.5px rgba(32, 106, 106, 0.75);
+            text-align: center;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        input {
+            margin-bottom: 10px;
+            padding: 5px;
+            width: 100%;
+            border: 1.5px solid #4DA1A9;
+            border-radius: 10px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #83fbf7;
+            box-shadow: 0 0 5px rgba(0, 255, 238, 0.5);
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #841e1e;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 15px;
+            cursor: pointer;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        button:hover {
+            background-color: #ff0000;
+            transform: translateY(-2px);
+        }
+
+        h1 {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #000;
+            font-weight: bold;
+        }
+
+        h2 {
+            margin-top: 1px;
+            font-size: 15px;
+            color: rgba(0, 0, 0, 0.452);
+            font-weight: lighter;
+            display: flex;
+            margin-left: 25px;
+            font-style: italic;
+        }
+
+        #loader {
+            display: none;
+        }
+
+        input[type="checkbox"] {
+            position: absolute;
+            display: flex;
+            width: 20px;
+            height: 20px;
+            appearance: none;
+            background-color: #fff;
+            border: 2px solid #4DA1A9;
+            border-radius: 4px;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type="checkbox"]:checked {
+            background-color: #4DA1A9;
+            border-color: #4DA1A9;
+        }
+
+        input[type="checkbox"]:checked::before {
+            content: "✔";
+            color: white;
+            font-size: 16px;
+            position: absolute;
+            left: 2px;
+            top: -3px;
+        }
+    </style>
+</head>
+
 <body>
-    <!-- INI KONTEN -->
-    <div id="root">
-        <input type="text" placeholder="Username" id="usn" />
-        <input type="password" placeholder="Password" id="pw" />
-        <button onclick="onLogin()" id="loginButton">LOGIN</button>
-        <button onclick="onLogout()" id="logoutButton">LOGOUT</button>
-        <br/>
-        <h1 id="admin">LOGIN SEBAGAI ADMIN</h1>
-        <h1 id="basic">LOGIN SEBAGAI USER</h1>
-    </div>
-
-    <script type="application/javascript">
-
-        let usn = document.getElementById('usn');
-        let pw = document.getElementById('pw');
-        let loginButton = document.getElementById('loginButton');
-        let logoutButton = document.getElementById('logoutButton');
-        let admin = document.getElementById('admin');
-        let basic = document.getElementById('basic');
+    <container> 
+        <div id="root">
+            <input type="text" placeholder="Username" id="usn" />
+            <input type="password" placeholder="Password" id="pw" />
+            <input type="checkbox" onclick="togglePassword()" id="showPasswordCheckbox">
+            <h2 id="h2"> Show Password</h2>
+            <button class="btn btn-success" onclick="onLogin()" id="loginButton">LOGIN</button>
+            <button onclick="onLogout()" id="logoutButton">LOGOUT</button>
+            <br />
+            <h1 id="admin">LOGIN SEBAGAI ADMIN</h1>
+            <h1 id="basic">LOGIN SEBAGAI USER</h1>
+            <p id="errorMessage" style="color: red; font-size: 14px; display: none;">Username atau password salah!</p>
+            <div id="loader">
+                <div class="spinner-border text-primary" role="status"></div>
+                <p style="font-size: 14px;">Logging in...</p>
+            </div>
+        </div>
+    </container>
+    <script>
+        const usn = document.getElementById('usn');
+        const pw = document.getElementById('pw');
+        const loginButton = document.getElementById('loginButton');
+        const logoutButton = document.getElementById('logoutButton');
+        const admin = document.getElementById('admin');
+        const basic = document.getElementById('basic');
+        const errorMessage = document.getElementById('errorMessage');
+        const loader = document.getElementById('loader');
 
         admin.style.display = "none";
         basic.style.display = "none";
         logoutButton.style.display = "none";
 
-        function onLogin() {
-            localStorage.setItem("usn", usn.value);
-            logoutButton.style.display = "block";
-            if (usn.value == "admin" && pw.value == "admin123") {
-                localStorage.setItem("role", "admin");
-                usn.style.display = "none";
-                pw.style.display = "none";
-                loginButton.style.display = "none";
-                basic.style.display = "none";
-                admin.style.display = "block";
-            } else {
-                usn.style.display = "none";
-                pw.style.display = "none";
-                loginButton.style.display = "none";
-                localStorage.setItem("role", "basic");
-                admin.style.display = "none";
-                basic.style.display = "block";
-            }
+        function togglePassword() {
+            pw.type = pw.type === "password" ? "text" : "password";
         }
 
-        if (localStorage.getItem('usn')) {
+        function onLogin() {
+            loginButton.style.display = "none";
+            loader.style.display = "none";
+
+
+            setTimeout(() => {
+                loader.style.display = "none";
+
+                if (usn.value === "admin" && pw.value === "admin123") {
+                    localStorage.setItem("role", "admin");
+                    showRole("admin");
+                } else if (usn.value && pw.value) {
+                    localStorage.setItem("role", "basic");
+                    showRole("basic");
+                } else {
+                    errorMessage.style.display = "block";
+                    loginButton.style.display = "block";
+                }
+                showPasswordCheckbox.style.display = "none"
+                h2.style.display = "none"
+            }, 1500);
+
+        }
+
+        function showRole(role) {
+            localStorage.setItem("usn", usn.value);
             usn.style.display = "none";
             pw.style.display = "none";
             loginButton.style.display = "none";
             logoutButton.style.display = "block";
-            if (localStorage.getItem('role') == "admin") {
-                basic.style.display = "none";
+            errorMessage.style.display = "none";
+
+            if (role === "admin") {
                 admin.style.display = "block";
+                basic.style.display = "none";
             } else {
                 basic.style.display = "block";
                 admin.style.display = "none";
             }
         }
-        
-        function onLogout(){
+
+        function onLogout() {
             localStorage.clear();
             location.reload();
         }
+
+        (function initialize() {
+            const role = localStorage.getItem("role");
+            if (role) {
+                usn.style.display = "none";
+                pw.style.display = "none";
+                loginButton.style.display = "none";
+                logoutButton.style.display = "block";
+                showRole(role);
+            }
+        })();
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
