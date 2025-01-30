@@ -11,19 +11,22 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #71C9CE, #E3FDFD);
             margin: 0;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            background-image: url('ayaka.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         #root {
-            background: linear-gradient(135deg, #A6E3E9, #CBF1F5);
+            background: rgba(0, 0, 0, 0.8);
             padding: 20px;
             border-radius: 25px;
-            box-shadow: 5px 5px 2.5px rgba(32, 106, 106, 0.75);
+            box-shadow: 5px 5px 2.5px rgb(0, 0, 0);
             text-align: center;
             width: 100%;
             max-width: 300px;
@@ -33,14 +36,16 @@
             margin-bottom: 10px;
             padding: 5px;
             width: 100%;
-            border: 1.5px solid #4DA1A9;
+            border: 1.5px solid #000000;
             border-radius: 10px;
             outline: none;
+            font-size: 12px;
+            font-style: italic;
         }
 
         input:focus {
             border-color: #83fbf7;
-            box-shadow: 0 0 5px rgba(0, 255, 238, 0.5);
+            box-shadow: 0 0 5px rgb(0, 0, 0);
         }
 
         button {
@@ -48,90 +53,89 @@
             padding: 10px;
             border: none;
             background-color: #841e1e;
-            color: #fff;
+            color: #ffffff;
             font-size: 16px;
             font-weight: bold;
             border-radius: 15px;
             cursor: pointer;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 5px rgb(255, 255, 255);
             transition: background-color 0.2s ease, transform 0.1s ease;
         }
 
         button:hover {
             background-color: #ff0000;
             transform: translateY(-2px);
+            transition: 0.2s;
         }
 
         h1 {
             margin-top: 20px;
             font-size: 18px;
-            color: #000;
+            color: #ffffff;
             font-weight: bold;
         }
 
-        h2 {
+        a {
             margin-top: 1px;
-            font-size: 15px;
-            color: rgba(0, 0, 0, 0.452);
+            font-size: 12px;
+            color: rgba(82, 80, 255, 0.79);
             font-weight: lighter;
             display: flex;
-            margin-left: 25px;
-            font-style: italic;
+            justify-content: center;
+            margin-left: 160px;
         }
 
         #loader {
             display: none;
         }
 
-        input[type="checkbox"] {
-            position: absolute;
-            display: flex;
-            width: 20px;
-            height: 20px;
-            appearance: none;
-            background-color: #fff;
-            border: 2px solid #4DA1A9;
-            border-radius: 4px;
+        .toggle-password {
             cursor: pointer;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        input[type="checkbox"]:checked {
-            background-color: #4DA1A9;
-            border-color: #4DA1A9;
-        }
-
-        input[type="checkbox"]:checked::before {
-            content: "✔";
-            color: white;
-            font-size: 16px;
             position: absolute;
-            left: 2px;
-            top: -3px;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        h4{
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            padding-bottom: 20px;
+        }
+        h5, h6 {
+            color: white;
+            font-size: 12px;
+            display: flex;
         }
     </style>
 </head>
 
 <body>
-    <container> 
-        <div id="root">
-            <input type="text" placeholder="Username" id="usn" />
+
+    <div id="root">
+        <h4 id="hEmpat"> Log in to your account</h4>
+        <h5 id="hLima">Email Address or Username</h5>
+        <input type="text" placeholder="Email Address or Username" id="usn" />
+        <h6 id="hEnam">Password</h6>
+        <div style="position: relative;">
             <input type="password" placeholder="Password" id="pw" />
-            <input type="checkbox" onclick="togglePassword()" id="showPasswordCheckbox">
-            <h2 id="h2"> Show Password</h2>
-            <button class="btn btn-success" onclick="onLogin()" id="loginButton">LOGIN</button>
-            <button onclick="onLogout()" id="logoutButton">LOGOUT</button>
-            <br />
-            <h1 id="admin">LOGIN SEBAGAI ADMIN</h1>
-            <h1 id="basic">LOGIN SEBAGAI USER</h1>
-            <p id="errorMessage" style="color: red; font-size: 14px; display: none;">Username atau password salah!</p>
-            <div id="loader">
-                <div class="spinner-border text-primary" role="status"></div>
-                <p style="font-size: 14px;">Logging in...</p>
-            </div>
+            <span class="toggle-password" onclick="togglePassword()">
+                <img src="seeAsset 6.png" id="eyeIcon" alt="Toggle Password" width="25" />
+            </span>
         </div>
-    </container>
+        <p><a href="#" id="hDua"> Forget Password?</a></p>
+        <button class="btn btn-outline-info" onclick="onLogin()" id="loginButton">LOGIN</button>
+        <button onclick="onLogout()" id="logoutButton">LOGOUT</button>
+        <br />
+        <h1 id="admin">LOGIN SEBAGAI ADMIN</h1>
+        <h1 id="basic">LOGIN SEBAGAI USER</h1>
+        <p id="errorMessage" style="color: red; font-size: 14px; display: none;">Username atau password salah!</p>
+        <div id="loader">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p style="font-size: 14px;">Logging in...</p>
+        </div>
+    </div>
+
     <script>
         const usn = document.getElementById('usn');
         const pw = document.getElementById('pw');
@@ -140,7 +144,12 @@
         const admin = document.getElementById('admin');
         const basic = document.getElementById('basic');
         const errorMessage = document.getElementById('errorMessage');
+        const hDua = document.getElementById('hDua');
         const loader = document.getElementById('loader');
+        const eyeIcon = document.getElementById('eyeIcon');
+        const hEmpat = document.getElementById('hEmpat');
+        const hLima = document.getElementById('hLima');
+        const hEnam = document.getElementById('hEnam');
 
         admin.style.display = "none";
         basic.style.display = "none";
@@ -148,12 +157,12 @@
 
         function togglePassword() {
             pw.type = pw.type === "password" ? "text" : "password";
+            eyeIcon.src = pw.type === "password" ? "seeAsset 6.png" : "unseeAsset 5.png"; // Change icon based on visibility
         }
 
         function onLogin() {
             loginButton.style.display = "none";
             loader.style.display = "none";
-
 
             setTimeout(() => {
                 loader.style.display = "none";
@@ -161,6 +170,10 @@
                 if (usn.value === "admin" && pw.value === "admin123") {
                     localStorage.setItem("role", "admin");
                     showRole("admin");
+                    hDua.style.display = "none";
+                    hEmpat.style.display = "none";
+                    hLima.style.display = "none";
+                    hEnam.style.display = "none";
                 } else if (usn.value && pw.value) {
                     localStorage.setItem("role", "basic");
                     showRole("basic");
@@ -168,10 +181,8 @@
                     errorMessage.style.display = "block";
                     loginButton.style.display = "block";
                 }
-                showPasswordCheckbox.style.display = "none"
-                h2.style.display = "none"
-            }, 1500);
 
+            }, 1500);
         }
 
         function showRole(role) {
