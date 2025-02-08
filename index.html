@@ -78,38 +78,35 @@
       font-weight: bold;
       display: flex;
     }
-
     p {
       color: white;
       font-size: 12px;
       font-weight: bold;
     }
-
     a {
-        color: white;
-        font-size: 12px;
-    }
-    a {
+      color: white;
+      font-size: 12px;
       text-decoration: none;
+      cursor: pointer;
     }
-
     h7 {
-        color: rgba(255, 255, 255, 0.66);
-        justify-items: center;
-        align-items: center;
-        font-size: 12px;
+      color: rgba(255, 255, 255, 0.66);
+      font-size: 12px;
+      display: block;
+      margin-top: 10px;
+      cursor: pointer;
     }
-
     h8 {
-        color: rgb(255, 255, 255);
-        font-size: 12px;
-        font-weight: bold;
+      color: rgb(255, 255, 255);
+      font-size: 12px;
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+      cursor: pointer;
     }
-
     img {
-        margin-bottom: 10px;
+      margin-bottom: 10px;
     }
-
     #loader {
       display: none;
     }
@@ -142,9 +139,9 @@
         <img src="seeAsset 6.png" id="eyeIcon" alt="Toggle Password" width="25px" />
       </span>
     </div>
-    <p><a href="#">Forget Password?</a></p>
+    <p><a onclick="showReset()">Forget Password?</a></p>
     <button onclick="onLogin()" id="loginButton">LOGIN</button>
-    <h7 href="#" onclick="showRegister()">Don't have an account? Register here</h7>
+    <h7 onclick="showRegister()">Don't have an account? Register here</h7>
     <p id="errorMessage" style="color: red; font-size: 14px; display: none;">Username atau password salah!</p>
     <div id="loader">
       <div class="spinner-border text-primary" role="status"></div>
@@ -157,6 +154,7 @@
   <div id="registerForm" class="form-container" style="display:none;">
     <h4>Register</h4>
     <input type="text" placeholder="Username" id="regUsername" />
+    <input type="email" placeholder="Email" id="regEmail" />
     <input type="password" placeholder="Password" id="regPassword" />
     <input type="password" placeholder="Confirm Password" id="regConfirmPassword" />
     <select id="regRole">
@@ -166,8 +164,19 @@
       <option value="editor">Editor</option>
     </select>
     <button onclick="onRegister()">Register</button>
-    <h8 href="#" onclick="showLogin()">Back to Login</h8>
+    <h8 onclick="showLogin()">Back to Login</h8>
     <p id="regErrorMessage" style="color:red; display:none;"></p>
+  </div>
+
+  <!-- Form Reset Password -->
+  <div id="resetForm" class="form-container" style="display:none;">
+    <h4>Reset Password</h4>
+    <input type="email" placeholder="Registered Email" id="resetEmail" />
+    <input type="password" placeholder="New Password" id="resetPassword" />
+    <input type="password" placeholder="Confirm New Password" id="resetConfirmPassword" />
+    <button onclick="onResetPassword()">Reset Password</button>
+    <h8 onclick="showLogin()">Back to Login</h8>
+    <p id="resetErrorMessage" style="color:red; display:none;"></p>
   </div>
 
   <!-- Dashboard (Tampilan setelah login) -->
@@ -203,14 +212,22 @@
 
     // Elemen-elemen untuk form registrasi
     const regUsername = document.getElementById('regUsername');
+    const regEmail = document.getElementById('regEmail');
     const regPassword = document.getElementById('regPassword');
     const regConfirmPassword = document.getElementById('regConfirmPassword');
     const regRole = document.getElementById('regRole');
     const regErrorMessage = document.getElementById('regErrorMessage');
 
+    // Elemen-elemen untuk form reset password
+    const resetEmail = document.getElementById('resetEmail');
+    const resetPassword = document.getElementById('resetPassword');
+    const resetConfirmPassword = document.getElementById('resetConfirmPassword');
+    const resetErrorMessage = document.getElementById('resetErrorMessage');
+
     // Kontainer form
     const loginForm = document.getElementById('loginForm');
     const registerForm = document.getElementById('registerForm');
+    const resetForm = document.getElementById('resetForm');
     const dashboard = document.getElementById('dashboard');
 
     // Bagian dashboard berdasarkan role
@@ -225,7 +242,7 @@
       eyeIcon.src = pw.type === "password" ? "seeAsset 6.png" : "unseeAsset 5.png";
     }
 
-    // Fungsi login: cek kecocokan username & password dengan data di localStorage
+    // Fungsi login: cek kecocokan username/email & password dengan data di localStorage
     function onLogin() {
       errorMessage.style.display = "none";
       loginButton.style.display = "none";
@@ -233,11 +250,13 @@
 
       setTimeout(() => {
         loader.style.display = "none";
-        const username = usn.value.trim();
+        const identifier = usn.value.trim();
         const password = pw.value;
         let users = JSON.parse(localStorage.getItem('users')) || [];
-        // Cari user yang sesuai
-        const user = users.find(u => u.username === username && u.password === password);
+        // Cari user berdasarkan username atau email
+        const user = users.find(u => 
+          (u.username === identifier || u.email === identifier) && u.password === password
+        );
         if (user) {
           localStorage.setItem("role", user.role);
           localStorage.setItem("loggedInUser", user.username);
@@ -251,9 +270,10 @@
 
     // Tampilkan dashboard sesuai role user
     function showRole(role) {
-      // Sembunyikan form login & registrasi
+      // Sembunyikan form login, registrasi, dan reset password
       loginForm.style.display = "none";
       registerForm.style.display = "none";
+      resetForm.style.display = "none";
       dashboard.style.display = "block";
 
       // Sembunyikan semua tampilan dashboard terlebih dahulu
@@ -283,24 +303,34 @@
     // Tampilkan form registrasi
     function showRegister() {
       loginForm.style.display = "none";
+      resetForm.style.display = "none";
       registerForm.style.display = "block";
     }
 
     // Kembali ke form login
     function showLogin() {
       registerForm.style.display = "none";
+      resetForm.style.display = "none";
       loginForm.style.display = "block";
+    }
+
+    // Tampilkan form reset password
+    function showReset() {
+      loginForm.style.display = "none";
+      registerForm.style.display = "none";
+      resetForm.style.display = "block";
     }
 
     // Fungsi registrasi: simpan user baru ke localStorage
     function onRegister() {
       regErrorMessage.style.display = "none";
       const username = regUsername.value.trim();
+      const email = regEmail.value.trim();
       const password = regPassword.value;
       const confirmPassword = regConfirmPassword.value;
       const role = regRole.value;
 
-      if (!username || !password || !confirmPassword) {
+      if (!username || !email || !password || !confirmPassword) {
         regErrorMessage.innerText = "Please fill in all fields.";
         regErrorMessage.style.display = "block";
         return;
@@ -312,22 +342,65 @@
       }
 
       let users = JSON.parse(localStorage.getItem('users')) || [];
-      // Cek apakah username sudah ada
+      // Cek apakah username atau email sudah ada
       if (users.some(u => u.username === username)) {
         regErrorMessage.innerText = "Username already exists.";
         regErrorMessage.style.display = "block";
         return;
       }
+      if (users.some(u => u.email === email)) {
+        regErrorMessage.innerText = "Email already registered.";
+        regErrorMessage.style.display = "block";
+        return;
+      }
 
       // Tambahkan user baru dan simpan ke localStorage
-      users.push({ username: username, password: password, role: role });
+      users.push({ username: username, email: email, password: password, role: role });
       localStorage.setItem('users', JSON.stringify(users));
       alert("Registration successful! Please login.");
       // Kosongkan field registrasi
       regUsername.value = "";
+      regEmail.value = "";
       regPassword.value = "";
       regConfirmPassword.value = "";
       // Kembali ke halaman login
+      showLogin();
+    }
+
+    // Fungsi reset password: cek email dan perbarui password jika valid
+    function onResetPassword() {
+      resetErrorMessage.style.display = "none";
+      const email = resetEmail.value.trim();
+      const newPassword = resetPassword.value;
+      const confirmNewPassword = resetConfirmPassword.value;
+
+      if (!email || !newPassword || !confirmNewPassword) {
+        resetErrorMessage.innerText = "Please fill in all fields.";
+        resetErrorMessage.style.display = "block";
+        return;
+      }
+      if (newPassword !== confirmNewPassword) {
+        resetErrorMessage.innerText = "Passwords do not match.";
+        resetErrorMessage.style.display = "block";
+        return;
+      }
+
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+      const userIndex = users.findIndex(u => u.email === email);
+      if (userIndex === -1) {
+        resetErrorMessage.innerText = "Email not found.";
+        resetErrorMessage.style.display = "block";
+        return;
+      }
+
+      // Update password untuk user yang sesuai
+      users[userIndex].password = newPassword;
+      localStorage.setItem('users', JSON.stringify(users));
+      alert("Password has been reset! Please login with your new password.");
+      // Kosongkan field reset password
+      resetEmail.value = "";
+      resetPassword.value = "";
+      resetConfirmPassword.value = "";
       showLogin();
     }
 
@@ -336,8 +409,8 @@
     (function initialize() {
       let users = JSON.parse(localStorage.getItem('users'));
       if (!users) {
-        // Default admin dengan username: admin dan password: admin123
-        users = [{ username: "admin", password: "admin123", role: "admin" }];
+        // Default admin dengan username: admin, email: admin@example.com, dan password: admin123
+        users = [{ username: "admin", email: "admin@example.com", password: "admin123", role: "admin" }];
         localStorage.setItem('users', JSON.stringify(users));
       }
       const role = localStorage.getItem("role");
