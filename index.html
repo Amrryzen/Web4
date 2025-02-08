@@ -1,232 +1,355 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pendaftaran Anggota Kentud</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-image: url('ayaka.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pendaftaran Anggota Kentud</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+  />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: url('ayaka.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .form-container {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      border-radius: 25px;
+      box-shadow: 5px 5px 2.5px rgb(0, 0, 0);
+      text-align: center;
+      width: 100%;
+      max-width: 300px;
+    }
+    input,
+    select {
+      margin-bottom: 10px;
+      padding: 5px;
+      width: 100%;
+      border: 1.5px solid #000;
+      border-radius: 10px;
+      outline: none;
+      font-size: 12px;
+      font-style: italic;
+    }
+    input:focus,
+    select:focus {
+      border-color: #83fbf7;
+      box-shadow: 0 0 5px #000;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background-color: #0e679b;
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 15px;
+      cursor: pointer;
+      box-shadow: 0 0 5px #fff;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+    }
+    button:hover {
+      background-color: #00a6ff;
+      transform: translateY(-2px);
+    }
+    h4 {
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+      padding-bottom: 20px;
+    }
+    h5, h6 {
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+      display: flex;
+    }
 
-        #root {
-            background: rgba(0, 0, 0, 0.8);
-            padding: 20px;
-            border-radius: 25px;
-            box-shadow: 5px 5px 2.5px rgb(0, 0, 0);
-            text-align: center;
-            width: 100%;
-            max-width: 300px;
-        }
+    p {
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+    }
 
-        input {
-            margin-bottom: 10px;
-            padding: 5px;
-            width: 100%;
-            border: 1.5px solid #000000;
-            border-radius: 10px;
-            outline: none;
-            font-size: 12px;
-            font-style: italic;
-        }
+    a {
+        color: white;
+        font-size: 12px;
+    }
+    a {
+      text-decoration: none;
+    }
 
-        input:focus {
-            border-color: #83fbf7;
-            box-shadow: 0 0 5px rgb(0, 0, 0);
-        }
+    h7 {
+        color: rgba(255, 255, 255, 0.66);
+        justify-items: center;
+        align-items: center;
+        font-size: 12px;
+    }
 
-        button {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            background-color: #841e1e;
-            color: #ffffff;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 15px;
-            cursor: pointer;
-            box-shadow: 0 0 5px rgb(255, 255, 255);
-            transition: background-color 0.2s ease, transform 0.1s ease;
-        }
+    h8 {
+        color: rgb(255, 255, 255);
+        font-size: 12px;
+        font-weight: bold;
+    }
 
-        button:hover {
-            background-color: #ff0000;
-            transform: translateY(-2px);
-            transition: 0.2s;
-        }
+    img {
+        margin-bottom: 10px;
+    }
 
-        h1 {
-            margin-top: 20px;
-            font-size: 18px;
-            color: #ffffff;
-            font-weight: bold;
-        }
-
-        a {
-            margin-top: 1px;
-            font-size: 12px;
-            color: rgba(82, 80, 255, 0.79);
-            font-weight: lighter;
-            display: flex;
-            justify-content: center;
-            margin-left: 160px;
-        }
-
-        #loader {
-            display: none;
-        }
-
-        .toggle-password {
-            cursor: pointer;
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-        h4{
-            color: white;
-            font-weight: bold;
-            font-size: 20px;
-            padding-bottom: 20px;
-        }
-        h5, h6 {
-            color: white;
-            font-size: 12px;
-            display: flex;
-        }
-
-        img {
-            padding-bottom: 10px;
-            width: 25px;
-        }
-    </style>
+    #loader {
+      display: none;
+    }
+    .toggle-password {
+      cursor: pointer;
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .dashboard {
+      display: none;
+      color: white;
+    }
+    .dashboard h1 {
+      font-size: 18px;
+    }
+  </style>
 </head>
-
 <body>
-
-    <div id="root">
-        <h4 id="hEmpat"> Log in to your account</h4>
-        <h5 id="hLima">Email Address or Username</h5>
-        <input type="text" placeholder="Email Address or Username" id="usn" />
-        <h6 id="hEnam">Password</h6>
-        <div style="position: relative;">
-            <input type="password" placeholder="Password" id="pw" />
-            <span class="toggle-password" onclick="togglePassword()">
-                <img src="seeAsset 6.png" id="eyeIcon" alt="Toggle Password" />
-            </span>
-        </div>
-        <p><a href="#" id="hDua"> Forget Password?</a></p>
-        <button class="btn btn-outline-info" onclick="onLogin()" id="loginButton">LOGIN</button>
-        <button onclick="onLogout()" id="logoutButton">LOGOUT</button>
-        <br />
-        <h1 id="admin">LOGIN SEBAGAI ADMIN</h1>
-        <h1 id="basic">LOGIN SEBAGAI USER</h1>
-        <p id="errorMessage" style="color: red; font-size: 14px; display: none;">Username atau password salah!</p>
-        <div id="loader">
-            <div class="spinner-border text-primary" role="status"></div>
-            <p style="font-size: 14px;">Logging in...</p>
-        </div>
+  <!-- Form Login -->
+  <div id="loginForm" class="form-container">
+    <h4>Log in to your account</h4>
+    <h5>Email Address or Username</h5>
+    <input type="text" placeholder="Email Address or Username" id="usn" />
+    <h6>Password</h6>
+    <div style="position: relative;">
+      <input type="password" placeholder="Password" id="pw" />
+      <span class="toggle-password" onclick="togglePassword()">
+        <img src="seeAsset 6.png" id="eyeIcon" alt="Toggle Password" width="25px" />
+      </span>
     </div>
+    <p><a href="#">Forget Password?</a></p>
+    <button onclick="onLogin()" id="loginButton">LOGIN</button>
+    <h7 href="#" onclick="showRegister()">Don't have an account? Register here</h7>
+    <p id="errorMessage" style="color: red; font-size: 14px; display: none;">Username atau password salah!</p>
+    <div id="loader">
+      <div class="spinner-border text-primary" role="status"></div>
+      <p style="font-size: 14px;">Logging in...</p>
+    </div>
+    <button onclick="onLogout()" id="logoutButton" style="display:none;">LOGOUT</button>
+  </div>
 
-    <script>
-        const usn = document.getElementById('usn');
-        const pw = document.getElementById('pw');
-        const loginButton = document.getElementById('loginButton');
-        const logoutButton = document.getElementById('logoutButton');
-        const admin = document.getElementById('admin');
-        const basic = document.getElementById('basic');
-        const errorMessage = document.getElementById('errorMessage');
-        const hDua = document.getElementById('hDua');
-        const loader = document.getElementById('loader');
-        const eyeIcon = document.getElementById('eyeIcon');
-        const hEmpat = document.getElementById('hEmpat');
-        const hLima = document.getElementById('hLima');
-        const hEnam = document.getElementById('hEnam');
+  <!-- Form Registrasi -->
+  <div id="registerForm" class="form-container" style="display:none;">
+    <h4>Register</h4>
+    <input type="text" placeholder="Username" id="regUsername" />
+    <input type="password" placeholder="Password" id="regPassword" />
+    <input type="password" placeholder="Confirm Password" id="regConfirmPassword" />
+    <select id="regRole">
+      <!-- Role yang diperbolehkan untuk register -->
+      <option value="basic">Basic User</option>
+      <option value="moderator">Moderator</option>
+      <option value="editor">Editor</option>
+    </select>
+    <button onclick="onRegister()">Register</button>
+    <h8 href="#" onclick="showLogin()">Back to Login</h8>
+    <p id="regErrorMessage" style="color:red; display:none;"></p>
+  </div>
 
-        admin.style.display = "none";
-        basic.style.display = "none";
-        logoutButton.style.display = "none";
+  <!-- Dashboard (Tampilan setelah login) -->
+  <div id="dashboard" class="form-container" style="display:none;">
+    <div id="adminDashboard" class="dashboard">
+      <h1>Welcome to Admin Dashboard</h1>
+      <p>You have full access.</p>
+    </div>
+    <div id="basicDashboard" class="dashboard">
+      <h1>Welcome to Basic User Dashboard</h1>
+      <p>Enjoy your stay!</p>
+    </div>
+    <div id="moderatorDashboard" class="dashboard">
+      <h1>Welcome to Moderator Dashboard</h1>
+      <p>Manage and moderate content.</p>
+    </div>
+    <div id="editorDashboard" class="dashboard">
+      <h1>Welcome to Editor Dashboard</h1>
+      <p>Edit and update content.</p>
+    </div>
+    <button onclick="onLogout()">LOGOUT</button>
+  </div>
 
-        function togglePassword() {
-            pw.type = pw.type === "password" ? "text" : "password";
-            eyeIcon.src = pw.type === "password" ? "seeAsset 6.png" : "unseeAsset 5.png"; // Change icon based on visibility
+  <script>
+    // Elemen-elemen untuk form login
+    const usn = document.getElementById('usn');
+    const pw = document.getElementById('pw');
+    const loginButton = document.getElementById('loginButton');
+    const logoutButton = document.getElementById('logoutButton');
+    const errorMessage = document.getElementById('errorMessage');
+    const loader = document.getElementById('loader');
+    const eyeIcon = document.getElementById('eyeIcon');
+
+    // Elemen-elemen untuk form registrasi
+    const regUsername = document.getElementById('regUsername');
+    const regPassword = document.getElementById('regPassword');
+    const regConfirmPassword = document.getElementById('regConfirmPassword');
+    const regRole = document.getElementById('regRole');
+    const regErrorMessage = document.getElementById('regErrorMessage');
+
+    // Kontainer form
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const dashboard = document.getElementById('dashboard');
+
+    // Bagian dashboard berdasarkan role
+    const adminDashboard = document.getElementById('adminDashboard');
+    const basicDashboard = document.getElementById('basicDashboard');
+    const moderatorDashboard = document.getElementById('moderatorDashboard');
+    const editorDashboard = document.getElementById('editorDashboard');
+
+    // Fungsi untuk toggle tampilan password
+    function togglePassword() {
+      pw.type = pw.type === "password" ? "text" : "password";
+      eyeIcon.src = pw.type === "password" ? "seeAsset 6.png" : "unseeAsset 5.png";
+    }
+
+    // Fungsi login: cek kecocokan username & password dengan data di localStorage
+    function onLogin() {
+      errorMessage.style.display = "none";
+      loginButton.style.display = "none";
+      loader.style.display = "block";
+
+      setTimeout(() => {
+        loader.style.display = "none";
+        const username = usn.value.trim();
+        const password = pw.value;
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        // Cari user yang sesuai
+        const user = users.find(u => u.username === username && u.password === password);
+        if (user) {
+          localStorage.setItem("role", user.role);
+          localStorage.setItem("loggedInUser", user.username);
+          showRole(user.role);
+        } else {
+          errorMessage.style.display = "block";
+          loginButton.style.display = "block";
         }
+      }, 1500);
+    }
 
-        function onLogin() {
-            loginButton.style.display = "none";
-            loader.style.display = "none";
+    // Tampilkan dashboard sesuai role user
+    function showRole(role) {
+      // Sembunyikan form login & registrasi
+      loginForm.style.display = "none";
+      registerForm.style.display = "none";
+      dashboard.style.display = "block";
 
-            setTimeout(() => {
-                loader.style.display = "none";
+      // Sembunyikan semua tampilan dashboard terlebih dahulu
+      adminDashboard.style.display = "none";
+      basicDashboard.style.display = "none";
+      moderatorDashboard.style.display = "none";
+      editorDashboard.style.display = "none";
 
-                if (usn.value === "admin" && pw.value === "admin123") {
-                    localStorage.setItem("role", "admin");
-                    showRole("admin");
-                    hDua.style.display = "none";
-                    hEmpat.style.display = "none";
-                    hLima.style.display = "none";
-                    hEnam.style.display = "none";
-                } else if (usn.value && pw.value) {
-                    localStorage.setItem("role", "basic");
-                    showRole("basic");
-                } else {
-                    errorMessage.style.display = "block";
-                    loginButton.style.display = "block";
-                }
+      if (role === "admin") {
+        adminDashboard.style.display = "block";
+      } else if (role === "moderator") {
+        moderatorDashboard.style.display = "block";
+      } else if (role === "editor") {
+        editorDashboard.style.display = "block";
+      } else {
+        basicDashboard.style.display = "block";
+      }
+    }
 
-            }, 1500);
-        }
+    // Fungsi logout: hapus data login dan reload halaman
+    function onLogout() {
+      localStorage.removeItem("role");
+      localStorage.removeItem("loggedInUser");
+      location.reload();
+    }
 
-        function showRole(role) {
-            localStorage.setItem("usn", usn.value);
-            usn.style.display = "none";
-            pw.style.display = "none";
-            loginButton.style.display = "none";
-            logoutButton.style.display = "block";
-            errorMessage.style.display = "none";
+    // Tampilkan form registrasi
+    function showRegister() {
+      loginForm.style.display = "none";
+      registerForm.style.display = "block";
+    }
 
-            if (role === "admin") {
-                admin.style.display = "block";
-                basic.style.display = "none";
-            } else {
-                basic.style.display = "block";
-                admin.style.display = "none";
-            }
-        }
+    // Kembali ke form login
+    function showLogin() {
+      registerForm.style.display = "none";
+      loginForm.style.display = "block";
+    }
 
-        function onLogout() {
-            localStorage.clear();
-            location.reload();
-        }
+    // Fungsi registrasi: simpan user baru ke localStorage
+    function onRegister() {
+      regErrorMessage.style.display = "none";
+      const username = regUsername.value.trim();
+      const password = regPassword.value;
+      const confirmPassword = regConfirmPassword.value;
+      const role = regRole.value;
 
-        (function initialize() {
-            const role = localStorage.getItem("role");
-            if (role) {
-                usn.style.display = "none";
-                pw.style.display = "none";
-                loginButton.style.display = "none";
-                logoutButton.style.display = "block";
-                showRole(role);
-            }
-        })();
-    </script>
+      if (!username || !password || !confirmPassword) {
+        regErrorMessage.innerText = "Please fill in all fields.";
+        regErrorMessage.style.display = "block";
+        return;
+      }
+      if (password !== confirmPassword) {
+        regErrorMessage.innerText = "Passwords do not match.";
+        regErrorMessage.style.display = "block";
+        return;
+      }
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+      // Cek apakah username sudah ada
+      if (users.some(u => u.username === username)) {
+        regErrorMessage.innerText = "Username already exists.";
+        regErrorMessage.style.display = "block";
+        return;
+      }
+
+      // Tambahkan user baru dan simpan ke localStorage
+      users.push({ username: username, password: password, role: role });
+      localStorage.setItem('users', JSON.stringify(users));
+      alert("Registration successful! Please login.");
+      // Kosongkan field registrasi
+      regUsername.value = "";
+      regPassword.value = "";
+      regConfirmPassword.value = "";
+      // Kembali ke halaman login
+      showLogin();
+    }
+
+    // Inisialisasi: buat akun admin default jika belum ada,
+    // dan cek apakah ada user yang sedang login.
+    (function initialize() {
+      let users = JSON.parse(localStorage.getItem('users'));
+      if (!users) {
+        // Default admin dengan username: admin dan password: admin123
+        users = [{ username: "admin", password: "admin123", role: "admin" }];
+        localStorage.setItem('users', JSON.stringify(users));
+      }
+      const role = localStorage.getItem("role");
+      if (role) {
+        showRole(role);
+      }
+    })();
+  </script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+  ></script>
 </body>
-
 </html>
